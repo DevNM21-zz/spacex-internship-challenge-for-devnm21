@@ -1,8 +1,8 @@
-
+import Header from '../src/components/Header';
 function App() {
   return (
-    <div className="">
-      SpaceX App
+    <div>
+      <Header />
     </div>
   );
 }

@@ -1,6 +1,26 @@
 import Table from 'reactstrap/lib/Table';
-import './Table.css'
-const SpacexTable = () => {
+import './Table.css';
+import Badge from './LaunchStatusBadge';
+
+const SpacexTable = ({ data, state }) => {
+
+	const getLaunchStatus = (upcoming, launchStatus) => {
+		if (upcoming) return 'Upcoming';
+		return launchStatus ? 'Success': 'Failed';
+	};
+	
+	const renderColumns = () =>
+		data.length > 0 &&	data.map(launch =>
+			<tr>
+				<td>{launch.flight_number}</td>
+				<td>{new Date(launch.launch_date_utc).toUTCString()}</td>
+				<td>{launch.launch_site.site_name}</td>
+				<td>{launch.mission_name}</td>
+				<td>{launch.rocket.second_stage.payloads[0].orbit}</td>
+				<td><Badge status={getLaunchStatus(launch.upcoming, launch.launch_success)} /></td>
+				<td>{launch.rocket.rocket_name}</td>
+			</tr>
+		)
 	return (
 		<Table>
 			<thead>
@@ -13,6 +33,9 @@ const SpacexTable = () => {
 			<td>Rocket</td>
 			</thead>
 			<tbody>
+			{
+				data.length > 0 && renderColumns()
+			}
 			</tbody>
 		</Table>
 	)

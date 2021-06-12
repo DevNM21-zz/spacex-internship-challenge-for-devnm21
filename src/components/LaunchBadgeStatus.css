@@ -1,0 +1,22 @@
+.launch-status-badge {
+    border-radius: 20px;
+    width: 100px;
+    height: 30px;
+    text-align: center;
+    padding: 3px 14px;
+}
+
+.status-upcoming {
+    background: #FEF3C7;
+    color: #92400F;
+}
+
+.status-success {
+    background: #DEF7EC;
+    color: #03543F;
+}
+
+.status-failed {
+    background: #FDE2E1;
+    color: #981B1C;
+}

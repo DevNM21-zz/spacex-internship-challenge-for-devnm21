@@ -1,6 +1,7 @@
 import Table from 'reactstrap/lib/Table';
 import './Table.css';
 import Badge from './LaunchStatusBadge';
+import { Children } from 'react'
 
 const SpacexTable = ({ data, state }) => {
 
@@ -10,7 +11,7 @@ const SpacexTable = ({ data, state }) => {
 	};
 	
 	const renderColumns = () =>
-		data.length > 0 &&	data.map(launch =>
+		data.length > 0 && Children.toArray(data.map(launch =>
 			<tr>
 				<td>{launch.flight_number}</td>
 				<td>{new Date(launch.launch_date_utc).toUTCString()}</td>
@@ -20,7 +21,7 @@ const SpacexTable = ({ data, state }) => {
 				<td><Badge status={getLaunchStatus(launch.upcoming, launch.launch_success)} /></td>
 				<td>{launch.rocket.rocket_name}</td>
 			</tr>
-		)
+		))
 	return (
 		<Table>
 			<thead>

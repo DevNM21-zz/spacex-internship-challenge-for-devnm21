@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Children } from 'react';
 import Pagination from 'reactstrap/lib/Pagination'
 import PaginationItem from 'reactstrap/lib/PaginationItem'
 import PaginationLink from 'reactstrap/lib/PaginationLink'
@@ -14,16 +14,21 @@ const Dashboard = () => {
 	const [loading, setLoading] = useState(true);
 	const [filter, setFilter] = useState({ filter: null, launchSuccess: null });
 	const [page, setPage] = useState(1);
+	const [hasMore, setHasMore] = useState(true);
+	const [pageCount, setPageCount] = useState(1);
 	
 	useEffect(() => {
 		API.getLaunches(filter.filter, filter.launchSuccess, page - 1).then(res => {
 			setData(res.data);
+			if (res.data.length >= 10) setPageCount(prev => prev += 1);
+			else setHasMore(false);
 			setLoading(false);
 		})
 	}, [filter, page]);
 	
 	const handleSelect = (value) => {
 		setPage(1);
+		setPageCount(1);
 		if (value === 'all') setFilter({ filter: '', launchSuccess: null });
 		if (value === 'upcoming') setFilter({ filter: 'upcoming', launchSuccess: null });
 		if (value === 'success') setFilter({ filter: '', launchSuccess: true });
@@ -47,41 +52,26 @@ const Dashboard = () => {
 				
 				<div className={'justify-end'}>
 					<Pagination>
-						<PaginationItem disabled>
-							<PaginationLink href="#" >
+						<PaginationItem className={page === 1 ? 'disabled': ''} >
+							<PaginationLink href="#" onClick={() => setPage(page => page -= 1)} >
 								{'<'}
 							</PaginationLink>
 						</PaginationItem>
-						<PaginationItem active>
-							<PaginationLink>
-								1
+						{
+							 Children.toArray(
+								 Array(pageCount).fill(0).map((_, i) =>
+									 <PaginationItem active={page === i + 1}>
+										 <PaginationLink onClick={() => setPage(i + 1)} >
+											 {i + 1}
+										 </PaginationLink>
+									 </PaginationItem>
+								 )
+							)
+						}
+						<PaginationItem className={!hasMore ? 'disabled': ''} >
+							<PaginationLink href="#"   onClick={() => setPage(page => page += 1)} >
+								{'>'}
 							</PaginationLink>
-						</PaginationItem>
-						<PaginationItem onClick={() => console.log('d')} >
-							<PaginationLink onClick={() => console.log('s')} href="#">
-								2
-							</PaginationLink>
-						</PaginationItem>
-						<PaginationItem>
-							<PaginationLink href="#">
-								3
-							</PaginationLink>
-						</PaginationItem>
-						<PaginationItem>
-							<PaginationLink href="#">
-								4
-							</PaginationLink>
-						</PaginationItem>
-						<PaginationItem>
-							<PaginationLink href="#">
-								5
-							</PaginationLink>
-						</PaginationItem>
-						<PaginationItem>
-							<PaginationLink next href="#" />
-						</PaginationItem>
-						<PaginationItem>
-							<PaginationLink last href="#" />
 						</PaginationItem>
 					</Pagination>
 				</div>

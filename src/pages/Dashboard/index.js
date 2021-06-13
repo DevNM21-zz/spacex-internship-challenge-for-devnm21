@@ -18,6 +18,7 @@ const Dashboard = () => {
 	const [pageCount, setPageCount] = useState(1);
 	
 	useEffect(() => {
+		setLoading(true);
 		API.getLaunches(filter.filter, filter.launchSuccess, page - 1).then(res => {
 			setData(res.data);
 			if (res.data.length >= 10) setPageCount(prev => prev += 1);
@@ -29,6 +30,7 @@ const Dashboard = () => {
 	const handleSelect = (value) => {
 		setPage(1);
 		setPageCount(1);
+		setHasMore(true)
 		if (value === 'all') setFilter({ filter: '', launchSuccess: null });
 		if (value === 'upcoming') setFilter({ filter: 'upcoming', launchSuccess: null });
 		if (value === 'success') setFilter({ filter: '', launchSuccess: true });
@@ -75,7 +77,6 @@ const Dashboard = () => {
 						</PaginationItem>
 					</Pagination>
 				</div>
-			
 		</>
 	)
 }

@@ -44,7 +44,7 @@ const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 	
 	return <>
 		<Modal size={'lg'} isOpen={show} toggle={toggle}>
-			<ModalBody style={{ padding: '16px' }} >
+			<ModalBody className={'details-modal-body'} >
 				{
 				loading ? <Spinner /> :
 				<Container>
@@ -58,7 +58,7 @@ const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 						</Col>
 						
 						<Col>
-							<h3 style={{display: 'inline-block'}} className={'launch-name-heading'}>{flightData?.mission_name}</h3>
+							<h3 className={'launch-name-heading'}>{flightData?.mission_name}</h3>
 							<LaunchStatusBadge status={'Success'}/>
 							
 							<p className={'silent text-info'}>{flightData?.rocket?.rocket_name}</p>
@@ -70,12 +70,12 @@ const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 							
 						</Col>
 						
-						<Col style={{position: 'relative'}}>
-							<Button onClick={toggle} style={{position: 'absolute', right: 0}} close/>
+						<Col className={'modal-close-col'}>
+							<Button className={'modal-close-btn'} onClick={toggle}  close/>
 						</Col>
 					</Row>
 					
-					<p style={{marginTop: '15px'}}>
+					<p className={'modal-details-div'}>
 						{flightData?.details}
 						<p> - <a href={flightData?.links?.wikipedia} rel="noreferrer" target={'_blank'} >Wikipedia</a></p>
 					</p>

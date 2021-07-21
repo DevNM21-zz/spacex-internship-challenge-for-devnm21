@@ -37,7 +37,8 @@ const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 	);
 	return <>
 		<Modal size={'lg'} isOpen={show} toggle={toggle}>
-			<ModalBody style={{ padding: '16px' }} >{
+			<ModalBody style={{ padding: '16px' }} >
+				{
 				loading ? <Spinner /> :
 				<Container>
 					<Row>
@@ -46,31 +47,39 @@ const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 							     alt={'trial'}/>
 						</Col>
 						<Col>
-							<h3 style={{display: 'inline-block'}} className={'launch-name-heading'}>CRS-1</h3> <LaunchStatusBadge
-							status={'Success'}/>
-							<p className={'silent text-info'}>Bleh</p>
-							<a href={''}><img alt={'Nasa'} src={NasaLogo}/></a>
-							<a href={''}><img alt={'Wikipedia'} src={WikiLogo}/></a>
-							<a href={''}><img alt={'Youtube'} src={YoutubeLogo}/></a>
+							<h3 style={{display: 'inline-block'}} className={'launch-name-heading'}>{flightData?.mission_name}</h3>
+							<LaunchStatusBadge status={'Success'}/>
+							<p className={'silent text-info'}>{flightData?.rocket.rocket_name}</p>
+							<a href={flightData?.links?.article_link} rel="noreferrer" target={'_blank'} ><img alt={'Nasa'} src={NasaLogo}/></a>
+							<a href={flightData?.links?.wikipedia} rel="noreferrer" target={'_blank'} ><img alt={'Wikipedia'} src={WikiLogo}/></a>
+							<a href={flightData?.links?.video_link} rel="noreferrer" target={'_blank'}><img alt={'Youtube'} src={YoutubeLogo}/></a>
 						</Col>
 						<Col style={{position: 'relative'}}>
 							<Button onClick={toggle} style={{position: 'absolute', right: 0}} close/>
 						</Col>
 					</Row>
 					<p style={{marginTop: '15px'}}>
-						CRS-1 successful, but the secondary payload was inserted into abnormally low orbit and lost due to Falcon 9
-						boost stage engine failure, ISS visiting vehicle safety rules, and the primary payload owner's contractual
-						right to decline a second ignition of the second stage under some condition.
-						<p> - <a href={'https://wikipedio.com'}>Wikipedia</a></p>
+						{flightData?.details}
+						<p> - <a href={flightData?.links?.wikipedia} rel="noreferrer" target={'_blank'} >Wikipedia</a></p>
 					</p>
 					<Container>
 						{
 							renderRowsFromObject({
-								'key1': 'val1'
+								'Flight Number': flightNumber,
+								'Mission Name': flightData?.mission_name,
+								'Rocket Name': flightData?.rocket.rocket_name,
+								'Rocket Type': flightData?.rocket.rocket_type,
+								'Manufacturer': 'Space X',
+								'Nationality': 'United States',
+								'Launch Date': new Date(flightData?.launch_date_utc).toUTCString(),
+								'Payload Type': flightData?.rocket?.second_stage?.payloads[0]?.payload_type,
+								'Orbit': flightData?.rocket?.second_stage?.payloads[0]?.orbit,
+								'Launch Site': flightData?.launch_site?.site_name_long,
 							})
 						}
 					</Container>
-				</Container>}
+				</Container>
+				}
 			</ModalBody>
 		</Modal>
 	</>

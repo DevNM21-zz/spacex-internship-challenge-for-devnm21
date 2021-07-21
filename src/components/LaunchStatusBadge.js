@@ -1,4 +1,5 @@
 import './LaunchBadgeStatus.css'
+// available statues: 'upcoming', 'success', 'failed'
 const Badge = ({ status }) => {
 	return (
 			<div className={'launch-status-badge status-' + status.toLowerCase()}>
@@ -6,5 +7,4 @@ const Badge = ({ status }) => {
 			</div>
 	)
 };
-
 export default Badge;

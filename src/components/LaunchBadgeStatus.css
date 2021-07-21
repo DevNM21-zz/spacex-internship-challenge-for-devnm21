@@ -4,6 +4,7 @@
     height: 30px;
     text-align: center;
     padding: 3px 14px;
+    display: inline-grid;
 }
 
 .status-upcoming {

@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react';
 import Modal from 'reactstrap/lib/Modal';
 import ModalBody from 'reactstrap/lib/ModalBody';
-import ModalHeader from 'reactstrap/lib/ModalHeader';
 import Button from 'reactstrap/lib/Button';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import Container from 'reactstrap/lib/Container';
 import Spinner from 'reactstrap/lib/Spinner';
-import LaunchStatusBadge from './LaunchStatusBadge';
-import Table from 'reactstrap/lib/Table';
-import './Table.css';
+import LaunchStatusBadge from '../LaunchStatusBadge';
 
-import WikiLogo from '../assets/wiki.png';
-import YoutubeLogo from '../assets/youtube.png';
-import NasaLogo from '../assets/nasa.png';
-import RocketIcon from '../assets/r-logo.png';
+import WikiLogo from '../../assets/wiki.png';
+import YoutubeLogo from '../../assets/youtube.png';
+import NasaLogo from '../../assets/nasa.png';
+import RocketIcon from '../../assets/r-logo.png';
 
-import api from '../api/index';
+import api from '../../api/index';
 const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 	
 	const [flightData, setFlightData] = useState({});
@@ -24,7 +21,6 @@ const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 	
 	useEffect(() => {
 		api.getLaunchByFlightNumber(flightNumber).then(res => {
-			console.log('data', res.data);
 			setFlightData(res.data);
 			setLoading(false);
 		})
@@ -65,7 +61,7 @@ const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 							<h3 style={{display: 'inline-block'}} className={'launch-name-heading'}>{flightData?.mission_name}</h3>
 							<LaunchStatusBadge status={'Success'}/>
 							
-							<p className={'silent text-info'}>{flightData?.rocket.rocket_name}</p>
+							<p className={'silent text-info'}>{flightData?.rocket?.rocket_name}</p>
 							
 							{/* External Links for more information about the launch */}
 							<ImageLink href={flightData?.links?.article_link} imageSrc={NasaLogo} />
@@ -88,8 +84,8 @@ const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 							renderRowsFromObject({
 								'Flight Number': flightNumber,
 								'Mission Name': flightData?.mission_name,
-								'Rocket Name': flightData?.rocket.rocket_name,
-								'Rocket Type': flightData?.rocket.rocket_type,
+								'Rocket Name': flightData?.rocket?.rocket_name,
+								'Rocket Type': flightData?.rocket?.rocket_type,
 								'Manufacturer': 'Space X',
 								'Nationality': 'United States',
 								'Launch Date': new Date(flightData?.launch_date_utc).toUTCString(),

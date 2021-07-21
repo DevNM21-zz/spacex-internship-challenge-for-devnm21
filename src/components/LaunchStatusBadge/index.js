@@ -1,4 +1,4 @@
-import './LaunchBadgeStatus.css'
+import './LaunchStatusBadge.css'
 // available statues: 'upcoming', 'success', 'failed'
 const Badge = ({ status }) => {
 	return (

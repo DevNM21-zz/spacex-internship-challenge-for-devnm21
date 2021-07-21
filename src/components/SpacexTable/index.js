@@ -1,12 +1,11 @@
 import { Children } from 'react'
 import Table from 'reactstrap/lib/Table';
 import './Table.css';
-import Badge from './LaunchStatusBadge';
-import LaunchDetailsModal from './LaunchDetailsModal';
-import { getLaunchStatus } from '../utils';
+import Badge from '../LaunchStatusBadge';
+import { getLaunchStatus } from '../../utils';
+import Loader from "react-loader-spinner";
 
 const SpacexTable = ({ data, state, onRowClick }) => {
-	
 	const renderColumns = () =>
 		data.length > 0 && Children.toArray(data.map(launch =>
 			<tr onClick={() => onRowClick(launch?.flight_number)}>
@@ -20,22 +19,34 @@ const SpacexTable = ({ data, state, onRowClick }) => {
 			</tr>
 		))
 	return (
-		<Table>
-			<thead>
-			<td>No:</td>
-			<td>Launched (UTC)</td>
-			<td>Location</td>
-			<td>Mission</td>
-			<td>Orbit</td>
-			<td>Launch Status</td>
-			<td>Rocket</td>
-			</thead>
-			<tbody>
+		<>
 			{
-				data.length > 0 && renderColumns()
+				state === 'loading' ?
+					<div className={'text-center'}>
+						<Loader
+							type="Puff"
+							color="#00BFFF"
+							height={100}
+							width={100}
+						/>
+					</div> :
+					<Table>
+						<thead>
+						<td>No:</td>
+						<td>Launched (UTC)</td>
+						<td>Location</td>
+						<td>Mission</td>
+						<td>Orbit</td>
+						<td>Launch Status</td>
+						<td>Rocket</td>
+						</thead>
+						<tbody>
+						{ data.length > 0 ? renderColumns() : 'No data to show' }
+						</tbody>
+					</Table>
 			}
-			</tbody>
-		</Table>
+
+		</>
 	)
 }
 export default SpacexTable;

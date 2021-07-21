@@ -5,10 +5,9 @@ import PaginationLink from 'reactstrap/lib/PaginationLink'
 import FilterIcon from '../../assets/funnel.svg';
 
 import './index.css'
-import SpacexTable from '../../components/Table';
+import SpacexTable from '../../components/SpacexTable';
 import API from '../../api';
 import LaunchDetailsModal from '../../components/LaunchDetailsModal';
-import Table from 'reactstrap/lib/Table';
 
 const Dashboard = () => {
 	
@@ -60,6 +59,7 @@ const Dashboard = () => {
 			
 				<SpacexTable
 					data={data}
+					state={loading ? 'loading': ''}
 					onRowClick={selectedFlightNumber => {
 						setIsModalOpen(true);
 						console.log(selectedFlightNumber)

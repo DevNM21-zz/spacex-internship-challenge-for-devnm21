@@ -9,4 +9,6 @@
     border: none;
     background: transparent;
 }
-
+.blocked-button {
+    cursor: not-allowed;
+}

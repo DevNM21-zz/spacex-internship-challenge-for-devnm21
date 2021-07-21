@@ -7,15 +7,21 @@ import FilterIcon from '../../assets/funnel.svg';
 import './index.css'
 import SpacexTable from '../../components/Table';
 import API from '../../api';
+import LaunchDetailsModal from '../../components/LaunchDetailsModal';
+import Table from 'reactstrap/lib/Table';
 
 const Dashboard = () => {
 	
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
+	
 	const [filter, setFilter] = useState({ filter: null, launchSuccess: null });
 	const [currentPage, setCurrentPage] = useState(1);
 	const [hasMore, setHasMore] = useState(true);
 	const [pageCount, setPageCount] = useState(1);
+	
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedFlightNumber, setSelectedFlightNumber] = useState('');
 	
 	useEffect(() => {
 		setLoading(true);
@@ -52,7 +58,14 @@ const Dashboard = () => {
 					</select>
 				</div>
 			
-				<SpacexTable data={data} />
+				<SpacexTable
+					data={data}
+					onRowClick={selectedFlightNumber => {
+						setIsModalOpen(true);
+						console.log(selectedFlightNumber)
+						setSelectedFlightNumber(selectedFlightNumber)
+					}}
+				/>
 				
 				<div className={'justify-end'}>
 					<Pagination>
@@ -79,6 +92,13 @@ const Dashboard = () => {
 						</PaginationItem>
 					</Pagination>
 				</div>
+			
+			<LaunchDetailsModal
+				flightNumber={selectedFlightNumber}
+				show={isModalOpen}
+				toggle={() => setIsModalOpen(p => !p)}
+			/>
+		
 		</>
 	)
 }

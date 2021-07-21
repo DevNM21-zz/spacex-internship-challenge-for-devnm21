@@ -14,6 +14,7 @@ import './Table.css';
 import WikiLogo from '../assets/wiki.png';
 import YoutubeLogo from '../assets/youtube.png';
 import NasaLogo from '../assets/nasa.png';
+import RocketIcon from '../assets/r-logo.png';
 
 import api from '../api/index';
 const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
@@ -28,6 +29,7 @@ const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 			setLoading(false);
 		})
 	}, [flightNumber]);
+	
 	const renderRowsFromObject = (obj) => Object.keys(obj).map(key =>
 		<Row>
 			<Col md={'3'} className={'capitalize'} >{key}</Col>
@@ -35,29 +37,48 @@ const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 			<hr/>
 		</Row>
 	);
+	
+	const ImageLink = ({ imageSrc, href, alt }) =>
+		<a
+			href={href}
+	    rel="noreferrer"
+	    target={'_blank'} >
+		<img alt={alt} src={imageSrc}/>
+	</a>
+	
 	return <>
 		<Modal size={'lg'} isOpen={show} toggle={toggle}>
 			<ModalBody style={{ padding: '16px' }} >
 				{
 				loading ? <Spinner /> :
 				<Container>
+					
 					<Row>
+						
 						<Col md={2}>
-							<img height={100} width={90} src={'https://farm1.staticflickr.com/856/28684550147_49802752b3_o.jpg'}
+							{/* hard-coding icon here because the image host from the api is not working */}
+							<img height={100} width={90} src={RocketIcon}
 							     alt={'trial'}/>
 						</Col>
+						
 						<Col>
 							<h3 style={{display: 'inline-block'}} className={'launch-name-heading'}>{flightData?.mission_name}</h3>
 							<LaunchStatusBadge status={'Success'}/>
+							
 							<p className={'silent text-info'}>{flightData?.rocket.rocket_name}</p>
-							<a href={flightData?.links?.article_link} rel="noreferrer" target={'_blank'} ><img alt={'Nasa'} src={NasaLogo}/></a>
-							<a href={flightData?.links?.wikipedia} rel="noreferrer" target={'_blank'} ><img alt={'Wikipedia'} src={WikiLogo}/></a>
-							<a href={flightData?.links?.video_link} rel="noreferrer" target={'_blank'}><img alt={'Youtube'} src={YoutubeLogo}/></a>
+							
+							{/* External Links for more information about the launch */}
+							<ImageLink href={flightData?.links?.article_link} imageSrc={NasaLogo} />
+							<ImageLink href={flightData?.links?.wikipedia} imageSrc={WikiLogo} />
+							<ImageLink href={flightData?.links?.video_link} imageSrc={YoutubeLogo} />
+							
 						</Col>
+						
 						<Col style={{position: 'relative'}}>
 							<Button onClick={toggle} style={{position: 'absolute', right: 0}} close/>
 						</Col>
 					</Row>
+					
 					<p style={{marginTop: '15px'}}>
 						{flightData?.details}
 						<p> - <a href={flightData?.links?.wikipedia} rel="noreferrer" target={'_blank'} >Wikipedia</a></p>

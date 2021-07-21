@@ -16,6 +16,15 @@ td {
     padding: 10px !important;
 }
 
+table {
+    position: relative;
+}
+
+.table-spinner {
+    position: absolute;
+    top: 250%;
+    left: 50%;
+}
 
 
 

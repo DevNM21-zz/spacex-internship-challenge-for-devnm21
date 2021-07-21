@@ -6,6 +6,7 @@ import { getLaunchStatus } from '../../utils';
 import Loader from "react-loader-spinner";
 
 const SpacexTable = ({ data, state, onRowClick }) => {
+	
 	const renderColumns = () =>
 		data.length > 0 && Children.toArray(data.map(launch =>
 			<tr onClick={() => onRowClick(launch?.flight_number)}>
@@ -17,19 +18,10 @@ const SpacexTable = ({ data, state, onRowClick }) => {
 				<td><Badge status={getLaunchStatus(launch?.upcoming, launch?.launch_success)} /></td>
 				<td>{launch?.rocket?.rocket_name}</td>
 			</tr>
-		))
+		));
+	
 	return (
 		<>
-			{
-				state === 'loading' ?
-					<div className={'text-center'}>
-						<Loader
-							type="Puff"
-							color="#00BFFF"
-							height={100}
-							width={100}
-						/>
-					</div> :
 					<Table>
 						<thead>
 						<td>No:</td>
@@ -41,11 +33,23 @@ const SpacexTable = ({ data, state, onRowClick }) => {
 						<td>Rocket</td>
 						</thead>
 						<tbody>
-						{ data.length > 0 ? renderColumns() : 'No data to show' }
+						{
+							state === 'loading' ?
+								<tr>
+								<div className={'text-center'}>
+									<Loader
+										type="Puff"
+										className={'table-spinner'}
+										color="#00BFFF"
+										height={100}
+										width={100}
+									/>
+								</div>
+								</tr>:
+								data.length > 0 ? renderColumns() : 'No data to show'
+						}
 						</tbody>
 					</Table>
-			}
-
 		</>
 	)
 }

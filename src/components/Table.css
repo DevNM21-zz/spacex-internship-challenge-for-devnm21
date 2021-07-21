@@ -9,6 +9,7 @@ thead {
 
 tr {
     border-style: none !important;
+    cursor: pointer;
 }
 
 td {

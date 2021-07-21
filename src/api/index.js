@@ -19,6 +19,10 @@ class SpacexAPI {
 			}
 		});
 	}
+	
+	getLaunchByFlightNumber (fNumber) {
+		return this.api.get(fNumber.toString());
+	}
 }
 
 export default new SpacexAPI();

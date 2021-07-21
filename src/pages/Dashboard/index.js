@@ -13,22 +13,24 @@ const Dashboard = () => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [filter, setFilter] = useState({ filter: null, launchSuccess: null });
-	const [page, setPage] = useState(1);
+	const [currentPage, setCurrentPage] = useState(1);
 	const [hasMore, setHasMore] = useState(true);
 	const [pageCount, setPageCount] = useState(1);
 	
 	useEffect(() => {
 		setLoading(true);
-		API.getLaunches(filter.filter, filter.launchSuccess, page - 1).then(res => {
+		API.getLaunches(filter.filter, filter.launchSuccess, currentPage - 1).then(res => {
 			setData(res.data);
-			if (res.data.length >= 10) setPageCount(prev => prev += 1);
+			if (res.data.length >= 10) {
+				if (currentPage === pageCount) setPageCount(prev => prev += 1);
+			}
 			else setHasMore(false);
 			setLoading(false);
 		})
-	}, [filter, page]);
+	}, [filter, currentPage]);
 	
 	const handleSelect = (value) => {
-		setPage(1);
+		setCurrentPage(1);
 		setPageCount(1);
 		setHasMore(true)
 		if (value === 'all') setFilter({ filter: '', launchSuccess: null });
@@ -54,24 +56,24 @@ const Dashboard = () => {
 				
 				<div className={'justify-end'}>
 					<Pagination>
-						<PaginationItem className={page === 1 ? 'disabled': ''} >
-							<PaginationLink href="#" onClick={() => setPage(page => page -= 1)} >
+						<PaginationItem className={currentPage === 1 ? 'disabled': ''} >
+							<PaginationLink href="#" onClick={() => setCurrentPage(page => page -= 1)} >
 								{'<'}
 							</PaginationLink>
 						</PaginationItem>
 						{
 							 Children.toArray(
 								 Array(pageCount).fill(0).map((_, i) =>
-									 <PaginationItem active={page === i + 1}>
-										 <PaginationLink onClick={() => setPage(i + 1)} >
+									 <PaginationItem active={currentPage === i + 1}>
+										 <PaginationLink onClick={() => setCurrentPage(i + 1)} >
 											 {i + 1}
 										 </PaginationLink>
 									 </PaginationItem>
 								 )
 							)
 						}
-						<PaginationItem className={!hasMore ? 'disabled': ''} >
-							<PaginationLink href="#"   onClick={() => setPage(page => page += 1)} >
+						<PaginationItem className={!hasMore && currentPage === pageCount ? 'disabled blocked-button': ''} >
+							<PaginationLink href="#"   onClick={() => setCurrentPage(page => page += 1)} >
 								{'>'}
 							</PaginationLink>
 						</PaginationItem>

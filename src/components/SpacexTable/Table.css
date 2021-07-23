@@ -1,0 +1,30 @@
+table {
+    border: 1px solid #E4E4E7;
+    margin-top: 20px;
+}
+
+thead {
+    background-color: #F4F5F7;
+}
+
+tr {
+    border-style: none !important;
+    cursor: pointer;
+}
+
+td {
+    padding: 10px !important;
+}
+
+table {
+    position: relative;
+}
+
+.table-spinner {
+    position: absolute;
+    top: 250%;
+    left: 50%;
+}
+
+
+

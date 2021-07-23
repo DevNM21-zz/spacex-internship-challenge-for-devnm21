@@ -1,0 +1,14 @@
+.justify-end {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.custom-select {
+    padding: 10px;
+    border: none;
+    background: transparent;
+}
+.blocked-button {
+    cursor: not-allowed;
+}

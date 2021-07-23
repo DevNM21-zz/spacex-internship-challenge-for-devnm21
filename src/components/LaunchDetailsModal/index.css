@@ -1,0 +1,20 @@
+.details-modal-body {
+    padding: 16px
+}
+
+.launch-name-heading {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+}
+
+.modal-close-col {
+    position: relative;
+}
+.modal-close-btn {
+    position: absolute;
+    right: 0;
+}
+
+.modal-details-div {
+    margin-top: 16px;
+}

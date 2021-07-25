@@ -12,7 +12,7 @@ import WikiLogo from '../../assets/wiki.png';
 import YoutubeLogo from '../../assets/youtube.png';
 import NasaLogo from '../../assets/nasa.png';
 import RocketIcon from '../../assets/r-logo.png';
-
+import './index.css';
 import api from '../../api/index';
 const LaunchDetailsModal = ({ flightNumber, show, toggle }) => {
 	
